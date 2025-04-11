@@ -1,4 +1,6 @@
 # Smart_Assessment_Board
+**Team Name: Tech Dragon
+Team Number: CT-51**
 Title: Smart Assessment Board
 Problem Statement : The school teacher is planning to conduct a quiz 
 competition on identifying states and the capitals of our country. Hence, 
@@ -42,3 +44,7 @@ Key Features:
       o	Camera-enabled verification during login
       o	Unique enrollment IDs
 ![4](https://github.com/user-attachments/assets/273fd7a4-b979-482b-911b-f77fc38316dc)
+
+HTML5: For page layout. Tailwind CSS: For styling the pages with a modern and responsive look. JavaScript: For quiz functionality, such as  question management, timers, performance metrics and chatbot. Role: I handled the whole process of development, from creating the user interface with Tailwind CSS to the implementation of the quiz with real time performance metrics and chatbot assistance ..
+
+Outcome: The project is a quiz application focused on Indian states and capitals, featuring interactive elements like a participant dashboard, chatbot assistance, and user login. It allows students like Mohit to log in securely, track their progress, and test their knowledge. The system provides instant feedback and support, enhancing the learning experience.
