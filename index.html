@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India States & Capitals Quiz</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+    <style>
+        /* Login Page Styles */
+        .login-page {
+            font-family: sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 0.9em;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="date"],
+        .form-group input[type="password"] {
+            width: calc(100% - 12px);
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1em;
+        }
+
+        .camera-section {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        #enable-camera-btn {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+
+        #enable-camera-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease;
+        }
+
+        #login-btn:hover:enabled {
+            background-color: #1e7e34;
+        }
+
+        #login-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        /* Quiz Page Styles */
+        .quiz-page {
+            display: none;
+            font-family: sans-serif;
+            margin: 0;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .quiz-section {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+            border-right: 1px solid #ccc;
+            overflow-y: auto;
+        }
+
+        .right-section {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .top-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .profile {
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        #upload-btn {
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .time, .status {
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            min-width: 120px;
+        }
+
+        .camera-feed {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .camera-feed video {
+            max-width: 100%;
+            border-radius: 5px;
+            background-color: #000;
+        }
+
+        #camera-toggle {
+            margin-top: 10px;
+            padding: 8px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .dashboard {
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .total-marks {
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .student-performance {
+            margin-top: 20px;
+            height: 200px;
+        }
+
+        .chatbot {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            height: 300px;
+        }
+
+        #chat-log {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chat-message {
+            padding: 8px 12px;
+            border-radius: 15px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: #007bff;
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: #e9ecef;
+            color: black;
+            border-bottom-left-radius: 5px;
+        }
+
+        .chat-input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        #chat-input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            flex-grow: 1;
+        }
+
+        #chat-send {
+            padding: 8px 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #question-container {
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+        }
+
+        .options label {
+            display: block;
+            margin: 8px 0;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .options label:hover {
+            background-color: #e9ecef;
+        }
+
+        .options input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        #navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        #navigation button {
+            padding: 10px 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        #navigation button:hover {
+            background-color: #0056b3;
+        }
+
+        #navigation button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .mark-review-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: #ffc107;
+            color: #212529;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .mark-review-btn:hover {
+            background-color: #e0a800;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-page" id="login-page">
+        <div class="login-container">
+            <h2>Student Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="enrollment-id">Enrollment ID:</label>
+                    <input type="text" id="enrollment-id" name="enrollment-id" required>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="date" id="dob" name="dob" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="camera-section">
+                    <button id="enable-camera-btn" type="button">Enable Camera</button>
+                    <video id="camera-preview" width="160" height="120" autoplay muted style="display: none;"></video>
+                    <p id="camera-status" style="display: none; color: green;">Camera Enabled</p>
+                    <p id="camera-error" style="display: none; color: red;">Camera access denied.</p>
+                </div>
+                <button type="submit" id="login-btn" disabled>Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quiz Page -->
+    <div class="quiz-page" id="quiz-page">
+        <div class="container">
+            <div class="quiz-section">
+                <h1>Indian States & Capitals Quiz</h1>
+                <div id="question-container">
+                </div>
+                <div id="navigation">
+                    <button id="prev-button">Previous</button>
+                    <button id="next-button">Next</button>
+                </div>
+            </div>
+            <div class="right-section">
+                <div class="top-info">
+                    <div class="profile">
+                        <img id="profile-pic" src="https://via.placeholder.com/50" alt="Profile Picture">
+                        <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+                        <button id="upload-btn">Change Photo</button>
+                    </div>
+                    <div class="time">
+                        Time: <span id="timer">10:00</span>
+                    </div>
+                    <div class="status">
+                        Attempted: <span id="attempted">0</span> /
+                        Marked: <span id="marked">0</span> /
+                        Unanswered: <span id="unanswered">15</span>
+                    </div>
+                </div>
+                <div class="camera-feed">
+                    <h2>Live Camera Feed</h2>
+                    <video id="camera-stream" width="320" height="240" autoplay></video>
+                </div>
+                <div class="dashboard">
+                    <h2>Participant Dashboard</h2>
+                    <div class="total-marks">Total Marks: <span id="total-marks">0</span></div>
+                    <div class="student-performance">
+                        <canvas id="performance-chart"></canvas>
+                    </div>
+                </div>
+                <div class="chatbot">
+                    <h2>Chatbot Assistant</h2>
+                    <div id="chat-log">
+                        <div class="chat-message bot-message">Chatbot: Hello! How can I help you with the quiz?</div>
+                        <div class="chat-message bot-message">Chatbot: You can ask me about state capitals or quiz rules.</div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" id="chat-input" placeholder="Ask a question...">
+                        <button id="chat-send">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Login Page Functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const enableCameraBtn = document.getElementById('enable-camera-btn');
+            const cameraPreview = document.getElementById('camera-preview');
+            const cameraStatus = document.getElementById('camera-status');
+            const cameraError = document.getElementById('camera-error');
+            const loginBtn = document.getElementById('login-btn');
+            let cameraEnabled = false;
+
+            enableCameraBtn.addEventListener('click', async () => {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+                    cameraPreview.srcObject = stream;
+                    cameraPreview.style.display = 'block';
+                    cameraStatus.style.display = 'block';
+                    cameraError.style.display = 'none';
+                    enableCameraBtn.style.display = 'none';
+                    cameraEnabled = true;
+                    loginBtn.disabled = false;
+                } catch (error) {
+                    console.error('Error accessing camera:', error);
+                    cameraError.style.display = 'block';
+                    cameraStatus.style.display = 'none';
+                    cameraPreview.style.display = 'none';
+                    loginBtn.disabled = true;
+                }
+            });
+
+            document.getElementById('login-form').addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                if (cameraEnabled) {
+                    // Get user data from form
+                    const userData = {
+                        name: document.getElementById('name').value,
+                        enrollmentId: document.getElementById('enrollment-id').value,
+                        dob: document.getElementById('dob').value
+                    };
+
+                    // Store user data for use in quiz page
+                    localStorage.setItem('quizUserData', JSON.stringify(userData));
+
+                    // Switch to quiz page
+                    document.getElementById('login-page').style.display = 'none';
+                    document.getElementById('quiz-page').style.display = 'block';
+                    
+                    // Initialize quiz with user data
+                    initializeQuiz(userData);
+                } else {
+                    alert('Please enable camera access to proceed.');
+                }
+            });
+
+            // Initialize Quiz Page (will be called after successful login)
+            function initializeQuiz(userData) {
+                // Set up quiz page with user data
+                document.getElementById('profile-pic').alt = `${userData.name}'s Profile`;
+                
+                // Initialize all quiz functionality
+                loadQuestions();
+                startTimer();
+                startCameraOnLoad();
+            }
+        });
+
+        // Quiz Page Functionality
+        const questionContainer = document.getElementById('question-container');
+        const prevButton = document.getElementById('prev-button');
+        const nextButton = document.getElementById('next-button');
+        const timerDisplay = document.getElementById('timer');
+        const attemptedDisplay = document.getElementById('attempted');
+        const markedDisplay = document.getElementById('marked');
+        const unansweredDisplay = document.getElementById('unanswered');
+        const totalMarksDisplay = document.getElementById('total-marks');
+        const cameraStreamElement = document.getElementById('camera-stream');
+        const chatLog = document.getElementById('chat-log');
+        const chatInput = document.getElementById('chat-input');
+        const chatSendButton = document.getElementById('chat-send');
+        const performanceChartCanvas = document.getElementById('performance-chart');
+        const profilePic = document.getElementById('profile-pic');
+        const profileUpload = document.getElementById('profile-upload');
+        const uploadButton = document.getElementById('upload-btn');
+
+        let currentQuestionIndex = 0;
+        let questions = [];
+        let userAnswers = Array(15).fill(null);
+        let markedForReview = Array(15).fill(false);
+        let timeLeft = 600; // 10 minutes in seconds
+        let timerInterval;
+        let totalMarks = 0;
+        let cameraStream = null;
+
+        // Enhanced questions array with 15 questions
+        const sampleQuestions = [
+            {
+                question: "What is the capital of Maharashtra?",
+                options: ["Mumbai", "Pune", "Nagpur", "Nashik"],
+                correctAnswer: "Mumbai"
+            },
+            {
+                question: "What is the capital of Tamil Nadu?",
+                options: ["Chennai", "Madurai", "Coimbatore", "Tiruchirappalli"],
+                correctAnswer: "Chennai"
+            },
+            {
+                question: "Which city is the capital of Rajasthan?",
+                options: ["Jaipur", "Jodhpur", "Udaipur", "Kota"],
+                correctAnswer: "Jaipur"
+            },
+            {
+                question: "What is the capital of West Bengal?",
+                options: ["Kolkata", "Siliguri", "Durgapur", "Asansol"],
+                correctAnswer: "Kolkata"
+            },
+            {
+                question: "Which city serves as the capital of Karnataka?",
+                options: ["Bangalore", "Mysore", "Hubli", "Mangalore"],
+                correctAnswer: "Bangalore"
+            },
+            {
+                question: "What is the capital of Gujarat?",
+                options: ["Gandhinagar", "Ahmedabad", "Surat", "Vadodara"],
+                correctAnswer: "Gandhinagar"
+            },
+            {
+                question: "Which city is the capital of Kerala?",
+                options: ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur"],
+                correctAnswer: "Thiruvananthapuram"
+            },
+            {
+                question: "What is the capital of Andhra Pradesh?",
+                options: ["Amaravati", "Visakhapatnam", "Vijayawada", "Tirupati"],
+                correctAnswer: "Amaravati"
+            },
+            {
+                question: "Which city serves as the capital of Telangana?",
+                options: ["Hyderabad", "Warangal", "Karimnagar", "Nizamabad"],
+                correctAnswer: "Hyderabad"
+            },
+            {
+                question: "What is the capital of Odisha?",
+                options: ["Bhubaneswar", "Cuttack", "Rourkela", "Puri"],
+                correctAnswer: "Bhubaneswar"
+            },
+            {
+                question: "Which city is the capital of Punjab?",
+                options: ["Chandigarh", "Ludhiana", "Amritsar", "Jalandhar"],
+                correctAnswer: "Chandigarh"
+            },
+            {
+                question: "What is the capital of Haryana?",
+                options: ["Chandigarh", "Faridabad", "Gurgaon", "Panipat"],
+                correctAnswer: "Chandigarh"
+            },
+            {
+                question: "Which city serves as the capital of Madhya Pradesh?",
+                options: ["Bhopal", "Indore", "Jabalpur", "Gwalior"],
+                correctAnswer: "Bhopal"
+            },
+            {
+                question: "What is the capital of Bihar?",
+                options: ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur"],
+                correctAnswer: "Patna"
+            },
+            {
+                question: "Which city is the capital of Uttar Pradesh?",
+                options: ["Lucknow", "Kanpur", "Varanasi", "Agra"],
+                correctAnswer: "Lucknow"
+            }
+        ];
+
+        // Student performance data
+        const studentPerformance = [
+            { name: "Rahul Sharma", score: 12, correct: 10, wrong: 2 },
+            { name: "Priya Patel", score: 15, correct: 15, wrong: 0 },
+            { name: "Amit Singh", score: 8, correct: 8, wrong: 7 },
+            { name: "Neha Gupta", score: 11, correct: 11, wrong: 4 },
+            { name: "You", score: 0, correct: 0, wrong: 0 }
+        ];
+
+        // Function to load questions
+        function loadQuestions() {
+            questions = sampleQuestions;
+            displayQuestion(currentQuestionIndex);
+            updateStatus();
+            createPerformanceChart();
+            updateTimerDisplay();
+        }
+
+        // Function to display a question
+        function displayQuestion(index) {
+            if (index >= 0 && index < questions.length) {
+                const questionData = questions[index];
+                questionContainer.innerHTML = `
+                    <div class="question">
+                        <p>${index + 1}. ${questionData.question}</p>
+                        <div class="options">
+                            ${questionData.options.map((option, i) => `
+                                <label>
+                                    <input type="radio" name="q${index}" value="${option}" ${userAnswers[index] === option ? 'checked' : ''}>
+                                    ${option}
+                                </label>
+                            `).join('')}
+                        </div>
+                        <button class="mark-review-btn" onclick="markForReview(${index})">${markedForReview[index] ? 'Unmark' : 'Mark for Review'}</button>
+                    </div>
+                `;
+
+                // Update navigation buttons
+                prevButton.disabled = index === 0;
+                nextButton.textContent = index === questions.length - 1 ? 'Submit' : 'Next';
+            }
+        }
+
+        // Function to update timer display
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        // Function to create performance chart
+        function createPerformanceChart() {
+            const ctx = performanceChartCanvas.getContext('2d');
+            if (performanceChartCanvas.chart) {
+                performanceChartCanvas.chart.destroy();
+            }
+
+            const chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: studentPerformance.map(student => student.name),
+                    datasets: [
+                        {
+                            label: 'Correct Answers',
+                            data: studentPerformance.map(student => student.correct),
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Wrong Answers',
+                            data: studentPerformance.map(student => student.wrong),
+                            backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Questions'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Students'
+                            }
+                        }
+                    }
+                }
+            });
+
+            performanceChartCanvas.chart = chart;
+        }
+
+        // Event listeners for navigation buttons
+        nextButton.addEventListener('click', () => {
+            saveAnswer(currentQuestionIndex);
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion(currentQuestionIndex);
+            } else {
+                submitQuiz();
+            }
+            updateStatus();
+        });
+
+        prevButton.addEventListener('click', () => {
+            saveAnswer(currentQuestionIndex);
+            currentQuestionIndex--;
+            displayQuestion(currentQuestionIndex);
+            updateStatus();
+        });
+
+        // Function to save the user's answer
+        function saveAnswer(index) {
+            const selectedOption = document.querySelector(`input[name="q${index}"]:checked`);
+            if (selectedOption) {
+                userAnswers[index] = selectedOption.value;
+            }
+        }
+
+        // Function to mark a question for review
+        window.markForReview = function(index) {
+            markedForReview[index] = !markedForReview[index];
+            displayQuestion(index);
+            updateStatus();
+        }
+
+        // Function to update the status display
+        function updateStatus() {
+            const attempted = userAnswers.filter(answer => answer !== null).length;
+            const marked = markedForReview.filter(marked => marked).length;
+            const unanswered = questions.length - attempted;
+
+            attemptedDisplay.textContent = attempted;
+            markedDisplay.textContent = marked;
+            unansweredDisplay.textContent = unanswered;
+
+            // Update "You" in student performance
+            const yourScore = calculateYourScore();
+            studentPerformance[studentPerformance.length - 1].score = yourScore;
+            studentPerformance[studentPerformance.length - 1].correct = yourScore;
+            studentPerformance[studentPerformance.length - 1].wrong = attempted - yourScore;
+
+            // Update the chart
+            createPerformanceChart();
+        }
+
+        // Calculate current score
+        function calculateYourScore() {
+            let score = 0;
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correctAnswer) {
+                    score++;
+                }
+            });
+            return score;
+        }
+
+        // Timer functionality
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitQuiz();
+                    alert("Time's up!");
+                }
+            }, 1000);
+        }
+
+        // Function to submit the quiz and calculate results
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            totalMarks = calculateYourScore();
+            totalMarksDisplay.textContent = totalMarks;
+
+            // Update "You" in student performance with final score
+            const attempted = userAnswers.filter(answer => answer !== null).length;
+            studentPerformance[studentPerformance.length - 1].score = totalMarks;
+            studentPerformance[studentPerformance.length - 1].correct = totalMarks;
+            studentPerformance[studentPerformance.length - 1].wrong = attempted - totalMarks;
+
+            createPerformanceChart();
+            alert(`Quiz finished! Your score: ${totalMarks} out of ${questions.length}`);
+        }
+
+        // Camera access on page load
+        async function startCameraOnLoad() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                cameraStream = stream;
+                cameraStreamElement.srcObject = stream;
+            } catch (error) {
+                console.error("Error accessing camera:", error);
+                cameraStreamElement.style.display = 'none';
+            }
+        }
+
+        // Profile picture upload
+        uploadButton.addEventListener('click', () => {
+            profileUpload.click();
+        });
+
+        profileUpload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    profilePic.src = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Chatbot functionality
+        chatSendButton.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addMessageToChat('You', message, 'user-message');
+                handleChatbotResponse(message);
+                chatInput.value = '';
+            }
+        }
+
+        function addMessageToChat(sender, message, className) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('chat-message', className);
+            messageDiv.textContent = `${sender}: ${message}`;
+            chatLog.appendChild(messageDiv);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function handleChatbotResponse(userMessage) {
+            // Simple chatbot responses
+            let response;
+            const lowerMessage = userMessage.toLowerCase();
+
+            if (lowerMessage.includes('capital')) {
+                const stateMatch = userMessage.match(/capital of (.+)/i);
+                if (stateMatch) {
+                    const state = stateMatch[1].trim();
+                    const question = questions.find(q =>
+                        q.question.toLowerCase().includes(state.toLowerCase())
+                    );
+                    response = question
+                        ? `The capital of ${state} is ${question.correctAnswer}.`
+                        : `I'm not sure about the capital of ${state}. Try asking about Indian states.`;
+                } else {
+                    response = "Which state's capital are you asking about?";
+                }
+            } else if (lowerMessage.includes('help') || lowerMessage.includes('support')) {
+                response = "I can help you with questions about Indian state capitals. Try asking 'What is the capital of Maharashtra?'";
+            } else if (lowerMessage.includes('time') || lowerMessage.includes('left')) {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                response = `Time remaining: ${minutes} minutes and ${seconds} seconds.`;
+            } else if (lowerMessage.includes('score') || lowerMessage.includes('marks')) {
+                const currentScore = calculateYourScore();
+                response = `Your current score is ${currentScore} out of ${questions.length} questions.`;
+            } else {
+                const randomResponses = [
+                    "I'm here to help with the quiz. Ask me about state capitals!",
+                    "I'm a simple quiz assistant. Try asking about Indian states and their capitals.",
+                    "Sorry, I can only answer questions related to the Indian states and capitals quiz.",
+                    "You can ask me for help with any question in the quiz."
+                ];
+                response = randomResponses[Math.floor(Math.random() * randomResponses.length)];
+            }
+
+            setTimeout(() => {
+                addMessageToChat('Chatbot', response, 'bot-message');
+            }, 500);
+        }
+    </script>
+</body>
+</html>
